@@ -59,12 +59,13 @@
   totalLines += innerSegmentLines;
   var lineSpacing = totalRadius/totalLines;
 
-  //TODO: Write state names
   //States
   var remainingLines = totalLines;
   for(var i=stateLines.length-1; i >= 0; i-- ) {
-    var lineCount = stateLines[i]["Lines"];
-    DrawSegment(centre, remainingLines*lineSpacing, (remainingLines-lineCount-1)*lineSpacing, 97.5+((i-1)*5), [new Color(250/255, 50/255, 115/255, 0.70-(i*0.12))], i*2.5, lineCount);
+    var index = stateLines.length-1-i;
+    var lineCount = stateLines[index]["Lines"];
+    var state = Object.keys(states)[stateLines[index]["State"]];
+    DrawSegment(centre, remainingLines*lineSpacing, (remainingLines-lineCount-1)*lineSpacing, 97.5+((i-1)*5), [new Color(250/255, 50/255, 115/255, 0.70-(i*0.12))], i*2.5, lineCount, state);
     remainingLines -= lineCount+1;
   }
 
@@ -89,7 +90,7 @@
 
 
   //Objects
-  function DrawSegment(centre, radius, innerRadius, angle, colour, angleOffset, lineCount){
+  function DrawSegment(centre, radius, innerRadius, angle, colour, angleOffset, lineCount, state){
     //Create objects used to construct segment
     var doughnut = new Doughnut(centre, radius, innerRadius);
     var arc = new Arc(centre, radius, angle)
@@ -116,6 +117,14 @@
       var lineRadius = innerRadius + (i*(radius - innerRadius)/(lineCount+1));
       ArcLine(centre, lineRadius, 90, true, [new Color(145/255, 29/255, 68/255, 1.0)]);
     }
+
+    //State name
+    var text = new PointText(new Point(centre.x-8, centre.y+3-radius+((radius-innerRadius)/2)));
+    text.justification = 'right';
+    text.fillColor = 'black';
+    text.content = state;
+    text.rotate(rotation, centre);
+    text.rotate(-45-rotation+15, text.point);
   }
 
   function ArcLine(centre, radius, angle, beginningCircle, colour, angleOffset){
