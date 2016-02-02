@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>Project Visualiser</title>
+<script type="text/javascript" src="scripts\paper-full.min.js"></script>
+<style type="text/css">
+  html, body {
+      margin: 0;
+      overflow: hidden;
+      height: 100%;
+  }
+
+  /* Scale canvas with resize attribute to full size */
+  canvas[resize] {
+      width: 100%;
+      height: 100%;
+  }
+</style>
+<script type="text/paperscript" canvas="canvas">
+
+  //Define parameters
+  var xSize = paper.view.bounds.width;
+  var ySize = paper.view.bounds.height-20;
+  var centre = new Point(xSize/2, ySize);
+  var totalRadius = (ySize/1.2);
+
+  //States
+  var states = Object.freeze({Backlog: 0, Prioritised: 1, InProgress: 2, Testing: 3, Complete: 4, Released: 5});
+  var stateLines =
+  [
+    {State: states["Backlog"], Lines: 1},
+    {State: states["Prioritised"], Lines: 1},
+    {State: states["InProgress"], Lines: 10},
+    {State: states["Testing"], Lines: 1},
+    {State: states["Complete"], Lines: 1},
+    {State: states["Released"], Lines: 1},
+  ];
+
+  //Project list
+  var projects =
+  [
+    {Name: "Project A", StartDate: "", EndDate: "", Effort: 0.5, Progress: 0.5, State: states["Backlog"]},
+    {Name: "Project B", StartDate: "", EndDate: "", Effort: 0.5, Progress: 0.5, State: states["Prioritised"]},
+    {Name: "Project C", StartDate: "", EndDate: "", Effort: 0.5, Progress: 0.5, State: states["InProgress"]},
+    {Name: "Project D", StartDate: "", EndDate: "", Effort: 0.5, Progress: 0.5, State: states["Testing"]},
+    {Name: "Project E", StartDate: "", EndDate: "", Effort: 0.5, Progress: 0.5, State: states["Complete"]},
+    {Name: "Project F", StartDate: "", EndDate: "", Effort: 0.5, Progress: 0.5, State: states["Released"]},
+  ];
+
+
+  //Calculate number of lines required and line spacing
+  var innerSegmentLines = 5;
+  var totalLines = 0;
+  for(var i=0; i<stateLines.length; i++ ) {
+    totalLines += stateLines[i]["Lines"]+1;
+  }
+  totalLines += innerSegmentLines;
+  var lineSpacing = totalRadius/totalLines;
+
+  //TODO: Write state names
+  //States
+  var remainingLines = totalLines;
+  for(var i=stateLines.length-1; i >= 0; i-- ) {
+    var lineCount = stateLines[i]["Lines"];
+    DrawSegment(centre, remainingLines*lineSpacing, (remainingLines-lineCount-1)*lineSpacing, 97.5+((i-1)*5), [new Color(250/255, 50/255, 115/255, 0.70-(i*0.12))], i*2.5, lineCount);
+    remainingLines -= lineCount+1;
+  }
+
+  //Outside arcline
+  ArcLine(centre, totalRadius, 145, false, [new Color(56/255, 11/255, 26/255, 1.0)], 10);
+
+  //Inner doughnuts
+  var innerSegmentWidth = lineSpacing * innerSegmentLines;
+  Doughnut(centre, innerSegmentWidth*0.9, innerSegmentWidth*0.53, [new Color(112/255, 129/255, 151/255, 1.0)]);
+  Doughnut(centre, innerSegmentWidth*0.43, innerSegmentWidth*0.39, [new Color(185/255, 224/255, 247/255, 1.0)]);
+  Doughnut(centre, innerSegmentWidth*0.37, innerSegmentWidth*0.11, [new Color(185/255, 224/255, 247/255, 1.0)]);
+  Doughnut(centre, innerSegmentWidth*0.12, innerSegmentWidth*0.02, [new Color(0/255, 89/255, 132/255, 1.0)]);
+
+  //Project arcline
+  ArcLine(centre, totalRadius*1.03, 135, false, [new Color(87/255, 55/255, 105/255, 1.0)], 45);
+  var circle = new Path.Circle(new Point(centre.x + totalRadius*1.03, centre.y), 4);
+  circle.fillColor = 'white';
+  circle.strokeColor = [new Color(87/255, 55/255, 105/255, 1.0)];
+
+  //TODO: Plot projects (animate click on project bubble)
+  //TODO: Show project details in side bar when clicked on
+
+
+  //Objects
+  function DrawSegment(centre, radius, innerRadius, angle, colour, angleOffset, lineCount){
+    //Create objects used to construct segment
+    var doughnut = new Doughnut(centre, radius, innerRadius);
+    var arc = new Arc(centre, radius, angle)
+    arc.add(centre);
+
+    //Calculate the rotation
+    var rotation = 45 - angle;
+    if (angleOffset) {
+      rotation = rotation + angleOffset
+    }
+
+    //Create segment object
+    var segment = new Group(arc, doughnut);
+    segment.clipped = true;
+    segment.rotate(rotation, centre);
+    segment.fillColor = colour;
+
+    //Inner line
+    ArcLine(centre, innerRadius, angle-angleOffset, true, [new Color(56/255, 11/255, 26/255, 1.0)]);
+    
+    //Internal lines
+    for (var i = 1; i <= lineCount; i++)
+    {
+      var lineRadius = innerRadius + (i*(radius - innerRadius)/(lineCount+1));
+      ArcLine(centre, lineRadius, 90, true, [new Color(145/255, 29/255, 68/255, 1.0)]);
+    }
+  }
+
+  function ArcLine(centre, radius, angle, beginningCircle, colour, angleOffset){
+    var rotation = 45-angle;
+    if (angleOffset) {
+      rotation = rotation + angleOffset
+    }
+    var arc = new Arc(centre, radius, angle)
+    arc.rotate(rotation, centre);
+    arc.strokeColor = colour;        
+
+    if (beginningCircle) {
+      var circle = new Path.Circle(arc.segments[0].point.x, arc.segments[0].point.y, 3);
+      circle.fillColor = colour;
+      return new Group(arc, circle);
+    }
+
+    return new Group(arc);
+  }
+
+  function Arc(centre, radius, angle){
+    var start = new Point(centre.x, centre.y-radius);
+    var through = new Point(centre.x+(radius/Math.sqrt(2)), centre.y-(radius/Math.sqrt(2)));
+    var x = centre.x + (radius * Math.cos(((angle-90)/180)*Math.PI));
+    var y = centre.y + (radius * Math.sin(((angle-90)/180)*Math.PI));
+    var to = new Point(x, y);
+    return new Path.Arc(start, through, to);
+  }
+
+  function Doughnut(centre, radius, innerRadius, colour){
+    var circle = new Path.Circle(centre, radius);
+    var innerCircle = new Path.Circle(centre, innerRadius);
+    var doughnut = circle.subtract(innerCircle);
+    if (colour) {
+      doughnut.fillColor = colour;
+    }
+    return doughnut;
+  }  
+
+  //Events
+  function onFrame(event) {
+  }
+
+</script>
+</head>
+
+<body style="margin: 10px;">
+  <canvas id="canvas" resize></canvas>
+</body>
+
+</html>
