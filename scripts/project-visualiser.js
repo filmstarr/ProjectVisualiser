@@ -1,19 +1,19 @@
 //Data
 var states = Object.freeze({Backlog: 0, Prioritised: 1, Working: 2, Testing: 3, Complete: 4, Released: 5});
 var projects = [
-  {Name: "Project A", Description: "", StartDate: new Date(2016,6-1,1), TestDays: 28, EndDate: new Date(2016,12-1,1), Effort: 1.0, StateProgress: 1.0, State: states.Prioritised, Archive: false, Details: ""},
-  {Name: "Project B", Description: "", StartDate: new Date(2016,9-1,1), TestDays: 14, EndDate: new Date(2016,11-1,1), Effort: 0.3, StateProgress: 1.0, State: states.Prioritised, Archive: false, Details: ""},
-  {Name: "Project C", Description: "", StartDate: new Date(2016,9-1,1), TestDays: 7, EndDate: new Date(2016,12-1,1), Effort: 0.6, StateProgress: 1.0, State: states.Prioritised, Archive: false, Details: ""},
-  {Name: "Project D", Description: "", StartDate: new Date(2016,4-1,1), TestDays: 14, EndDate: new Date(2016,6-1,1), Effort: 0.5, StateProgress: 1.0, State: states.Prioritised, Archive: false, Details: ""},
-  {Name: "Project E", Description: "", StartDate: new Date(2016,6-1,1), TestDays: 21, EndDate: new Date(2016,8-1,1), Effort: 0.8, StateProgress: 1.0, State: states.Prioritised, Archive: false, Details: ""},
-  {Name: "Project F", Description: "", StartDate: new Date(2016,12-1,1), TestDays: 21, EndDate: new Date(2017,02-1,1), Effort: 0.4, StateProgress: 1.0, State: states.Prioritised, Archive: false, Details: ""},
-  {Name: "Project G", Description: "", StartDate: new Date(2016,1-1,1), TestDays: 14, EndDate: new Date(2016,4-1,15), Effort: 1.0, StateProgress: 0.4, State: states.Working, Archive: false, Details: ""},
-  {Name: "Project H", Description: "", StartDate: new Date(2015,12-1,1), TestDays: 7, EndDate: new Date(2016,2-1,29), Effort: 0.7, StateProgress: 0.3, State: states.Working, Archive: false, Details: ""},
-  {Name: "Project I", Description: "", StartDate: new Date(2016,2-1,1), TestDays: 7, EndDate: new Date(2016,2-1,1), Effort: 0.3, StateProgress: 0.3, State: states.Working, Archive: false, Details: ""},
-  {Name: "Project J", Description: "", StartDate: new Date(2016,2-1,1), TestDays: 7, EndDate: new Date(2016,4-1,29), Effort: 0.3, StateProgress: 0.2, State: states.Working, Archive: false, Details: ""},
-  {Name: "Project K", Description: "", StartDate: new Date(2016,1-1,21), TestDays: 14, EndDate: new Date(2016,4-1,1), Effort: 0.7, StateProgress: 0.5, State: states.Working, Archive: false, Details: ""},
-  {Name: "Project L", Description: "", StartDate: new Date(2016,1-14,1), TestDays: 2, EndDate: new Date(2016,3-1,1), Effort: 0.2, StateProgress: 1.0, State: states.Testing, Archive: false, Details: ""},
-  {Name: "Project M", Description: "", StartDate: new Date(2016,1-1,1), TestDays: 1, EndDate: new Date(2016,2-1,1), Effort: 0.4, StateProgress: 1.0, State: states.Released, Archive: false, Details: ""},
+  {Name: "Project A", Description: "", StartDate: new Date(2016,6-1,1), TestDays: 28, EndDate: new Date(2016,12-1,1), Effort: 1.0, StateProgress: 1.0, State: states.Prioritised},
+  {Name: "Project B", Description: "", StartDate: new Date(2016,9-1,1), TestDays: 14, EndDate: new Date(2016,11-1,1), Effort: 0.3, StateProgress: 1.0, State: states.Prioritised},
+  {Name: "Project C", Description: "", StartDate: new Date(2016,9-1,1), TestDays: 7, EndDate: new Date(2016,12-1,1), Effort: 0.6, StateProgress: 1.0, State: states.Prioritised},
+  {Name: "Project D", Description: "", StartDate: new Date(2016,4-1,1), TestDays: 14, EndDate: new Date(2016,6-1,1), Effort: 0.5, StateProgress: 1.0, State: states.Prioritised},
+  {Name: "Project E", Description: "", StartDate: new Date(2016,6-1,1), TestDays: 21, EndDate: new Date(2016,8-1,1), Effort: 0.8, StateProgress: 1.0, State: states.Prioritised},
+  {Name: "Project F", Description: "", StartDate: new Date(2016,12-1,1), TestDays: 21, EndDate: new Date(2017,02-1,1), Effort: 0.4, StateProgress: 1.0, State: states.Prioritised},
+  {Name: "Project G", Description: "", StartDate: new Date(2016,1-1,1), TestDays: 14, EndDate: new Date(2016,4-1,15), Effort: 1.0, StateProgress: 0.4, State: states.Working},
+  {Name: "Project H", Description: "", StartDate: new Date(2015,12-1,1), TestDays: 7, EndDate: new Date(2016,2-1,29), Effort: 0.7, StateProgress: 0.3, State: states.Working},
+  {Name: "Project I", Description: "", StartDate: new Date(2016,2-1,1), TestDays: 7, EndDate: new Date(2016,2-1,1), Effort: 0.3, StateProgress: 0.3, State: states.Working},
+  {Name: "Project J", Description: "", StartDate: new Date(2016,2-1,1), TestDays: 7, EndDate: new Date(2016,4-1,29), Effort: 0.3, StateProgress: 0.2, State: states.Working},
+  {Name: "Project K", Description: "", StartDate: new Date(2016,1-1,21), TestDays: 14, EndDate: new Date(2016,4-1,1), Effort: 0.7, StateProgress: 0.5, State: states.Working},
+  {Name: "Project L", Description: "", StartDate: new Date(2016,1-14,1), TestDays: 2, EndDate: new Date(2016,3-1,1), Effort: 0.2, StateProgress: 1.0, State: states.Testing},
+  {Name: "Project M", Description: "", StartDate: new Date(2016,1-1,1), TestDays: 1, EndDate: new Date(2016,2-1,1), Effort: 0.4, StateProgress: 1.0, State: states.Released},
 ];
 
 projects = projects.sort(function(a, b) {
@@ -85,21 +85,17 @@ circle.strokeColor = [new Color(87/255, 55/255, 105/255, 1.0)];
 //Background project lines
 for(var i=0; i < projects.length; i++ ) {
   var project = projects[i];
-  if (!project.Archive) {
-    //Line
-    var line = new Path.Line(centre, new Point(centre.x, centre.y-totalRadius+1));
-    line.strokeColor = new Color(255/255, 255/255, 255/255, 0.4);
-    line.rotate(-(totalProjectAngle/2)+projectOffsetAngle+(projectSeparationAngle*i), centre);       
-  }
+  //Line
+  var line = new Path.Line(centre, new Point(centre.x, centre.y-totalRadius+1));
+  line.strokeColor = new Color(255/255, 255/255, 255/255, 0.4);
+  line.rotate(-(totalProjectAngle/2)+projectOffsetAngle+(projectSeparationAngle*i), centre);       
 }
 
 //Project details
 var projectColours = ["#FA37A8","#23B3E8","#D5547F","#00E957","#9260A7"];
 for(var i=0; i < projects.length; i++ ) {
   var project = projects[i];
-  if (!project.Archive) {
-    var project = new Project(centre, totalRadius, project, stateLines, lineSpacing, projectCount, new Color(projectColours[i % projectColours.length ]), totalProjectAngle, projectOffsetAngle, projectSeparationAngle, states);
-  }
+  var project = new Project(centre, totalRadius, project, stateLines, lineSpacing, projectCount, new Color(projectColours[i % projectColours.length ]), totalProjectAngle, projectOffsetAngle, projectSeparationAngle, states);
 }
 
 //Inner doughnuts
@@ -109,10 +105,9 @@ Doughnut(centre, innerSegmentWidth*0.43, innerSegmentWidth*0.39, [new Color(185/
 Doughnut(centre, innerSegmentWidth*0.37, innerSegmentWidth*0.11, [new Color(185/255, 224/255, 247/255, 1.0)]);
 Doughnut(centre, innerSegmentWidth*0.12, innerSegmentWidth*0.02, [new Color(0/255, 89/255, 132/255, 1.0)]);
 
-//TODO: Show project details in side bar when clicked on
-//TODO: Archived items
-
-
+//TODO: Show project details in side bar when clicked on (or hovered)
+//TODO: Expand bubbles on hover
+//TODO: Project descriptions
 
 //Objects
 function State(centre, radius, innerRadius, angle, colour, angleOffset, lineCount, state, totalProjectAngle){
@@ -195,7 +190,7 @@ function Project(centre, totalRadius, project, stateLines, lineSpacing, projectC
     //Project status
     UpdateStatus(project)
     var statusBubble = new Doughnut(new Point(centre.x, centre.y - totalRadius + (lineSpacing*projectLines)), outerRadius+4, outerRadius+2, [new Color(72/255, 186/255, 60/255, 0.8)]);
-    if (project.Details != "") {
+    if (project.Status != "") {
       statusBubble.fillColor = [new Color(238/255, 28/255, 36/255, 0.8)];
     }
 
@@ -205,26 +200,27 @@ function Project(centre, totalRadius, project, stateLines, lineSpacing, projectC
   
     //Events
     group.onClick = function(event) {
-      console.log(project);
+      UpdateProjectDetails(project, states);
     }
     
     function UpdateStatus(project) {
+      project.Status = "";
       var projectState = project.State;
       var now = new Date().getTime();
       var testingStartDate = project.EndDate.getTime()-(project.TestDays * 86400000);
       var workingTime = testingStartDate - project.StartDate.getTime();
       var elapsedTime = now - project.StartDate.getTime();
       if (projectState < states.Working && project.StartDate < now) {
-        project.Details = "Behind schedule - Not working";
+        project.Status = "Behind schedule - Not working";
       }
       if (project.StateProgress < elapsedTime/workingTime && projectState == states.Working) {
-        project.Details = "Behind schedule - Not progressed enough";
+        project.Status = "Behind schedule - Not progressed enough";
       }
       if (testingStartDate < now && projectState < states.Testing) {
-        project.Details = "Behind schedule - Not testing yet";
+        project.Status = "Behind schedule - Not testing yet";
       }
       if (project.EndDate < now && projectState < states.Complete) {
-        project.Details = "Behind schedule - Not complete yet";
+        project.Status = "Behind schedule - Not complete yet";
       }
     }
 }
@@ -266,7 +262,36 @@ function Doughnut(centre, radius, innerRadius, colour){
     doughnut.fillColor = colour;
   }
   return doughnut;
-}  
+}
+
+var projectDetails;
+function UpdateProjectDetails(project, states) {
+  if (projectDetails) {
+    projectDetails.removeChildren();
+  }
+  
+  var properties = new PointText(new Point(100,15));
+  properties.justification = "right";
+  properties.fillColor = new Color(32/255, 0/255, 0/255, 1.0);
+  properties.fontSize = 15;
+  var values = new PointText(new Point(105,15));
+  values.justification = "left";
+  values.fillColor = new Color(32/255, 0/255, 0/255, 1.0);
+  values.fontSize = 15;
+
+  //Write out details
+  for (var property in project) {
+    if (project.hasOwnProperty(property)) {
+      properties.content += property + ":\n";
+      if (property == "State") {
+        values.content += Object.keys(states)[project[property]] + "\n";
+      } else {
+        values.content += project[property] + "\n";
+      }
+    }
+  }  
+  projectDetails = new Group(properties, values);
+}
 
 //Events
 function onFrame(event) {
