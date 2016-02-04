@@ -205,17 +205,17 @@ function Project(centre, totalRadius, project, stateLines, lineSpacing, projectC
     group.onMouseEnter = function(event) {
       bubble.scale(scalingFactor);
       statusBubble.scale(scalingFactor);
+      UpdateProjectDetails(project, states);
     }
 
     group.onMouseLeave = function(event) {
       bubble.scale(1.0/scalingFactor);
       statusBubble.scale(1.0/scalingFactor);
+      if (projectDetails) {
+        projectDetails.removeChildren();
+      }
     }
 
-    group.onClick = function(event) {
-      UpdateProjectDetails(project, states);
-    }
-    
     function UpdateStatus(project) {
       project.Status = "";
       var projectState = project.State;
