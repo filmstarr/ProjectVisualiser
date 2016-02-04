@@ -91,13 +91,6 @@ for(var i=0; i < projects.length; i++ ) {
   line.rotate(-(totalProjectAngle/2)+projectOffsetAngle+(projectSeparationAngle*i), centre);       
 }
 
-//Project details
-var projectColours = ["#FA37A8","#23B3E8","#D5547F","#00E957","#9260A7"];
-for(var i=0; i < projects.length; i++ ) {
-  var project = projects[i];
-  Project(centre, totalRadius, project, stateLines, lineSpacing, projectCount, new Color(projectColours[i % projectColours.length ]), totalProjectAngle, projectOffsetAngle, projectSeparationAngle, states);
-}
-
 //Inner doughnuts
 var innerSegmentWidth = lineSpacing * innerSegmentLines;
 Doughnut(centre, innerSegmentWidth*0.9, innerSegmentWidth*0.53, [new Color(112/255, 129/255, 151/255, 1.0)]);
@@ -105,8 +98,14 @@ Doughnut(centre, innerSegmentWidth*0.43, innerSegmentWidth*0.39, [new Color(185/
 Doughnut(centre, innerSegmentWidth*0.37, innerSegmentWidth*0.11, [new Color(185/255, 224/255, 247/255, 1.0)]);
 Doughnut(centre, innerSegmentWidth*0.12, innerSegmentWidth*0.02, [new Color(0/255, 89/255, 132/255, 1.0)]);
 
-//TODO: Show project details in side bar when clicked on (or hovered)
-//TODO: Project descriptions
+//Project details
+var projectColours = ["#FA37A8","#23B3E8","#D5547F","#00E957","#9260A7"];
+for(var i=0; i < projects.length; i++ ) {
+  var project = projects[i];
+  Project(centre, totalRadius, project, stateLines, lineSpacing, projectCount, new Color(projectColours[i % projectColours.length ]), totalProjectAngle, projectOffsetAngle, projectSeparationAngle, states);
+}
+
+
 
 //Objects
 function State(centre, radius, innerRadius, angle, colour, angleOffset, lineCount, state, totalProjectAngle){
@@ -305,8 +304,3 @@ function UpdateProjectDetails(project, states) {
   }  
   projectDetails = new Group(properties, values);
 }
-
-//Events
-function onFrame(event) {
-}
-
