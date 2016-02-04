@@ -1,19 +1,19 @@
 //Data
 var states = Object.freeze({Backlog: 0, Prioritised: 1, Working: 2, Testing: 3, Complete: 4, Released: 5});
 var projects = [
-  {Name: "Project A", Description: "", StartDate: new Date(2016,6-1,1), TestDays: 28, EndDate: new Date(2016,12-1,1), Effort: 1.0, StateProgress: 1.0, State: states.Prioritised},
-  {Name: "Project B", Description: "", StartDate: new Date(2016,9-1,1), TestDays: 14, EndDate: new Date(2016,11-1,1), Effort: 0.3, StateProgress: 1.0, State: states.Prioritised},
-  {Name: "Project C", Description: "", StartDate: new Date(2016,9-1,1), TestDays: 7, EndDate: new Date(2016,12-1,1), Effort: 0.6, StateProgress: 1.0, State: states.Prioritised},
-  {Name: "Project D", Description: "", StartDate: new Date(2016,4-1,1), TestDays: 14, EndDate: new Date(2016,6-1,1), Effort: 0.5, StateProgress: 1.0, State: states.Prioritised},
-  {Name: "Project E", Description: "", StartDate: new Date(2016,6-1,1), TestDays: 21, EndDate: new Date(2016,8-1,1), Effort: 0.8, StateProgress: 1.0, State: states.Prioritised},
-  {Name: "Project F", Description: "", StartDate: new Date(2016,12-1,1), TestDays: 21, EndDate: new Date(2017,02-1,1), Effort: 0.4, StateProgress: 1.0, State: states.Prioritised},
-  {Name: "Project G", Description: "", StartDate: new Date(2016,1-1,1), TestDays: 14, EndDate: new Date(2016,4-1,15), Effort: 1.0, StateProgress: 0.4, State: states.Working},
-  {Name: "Project H", Description: "", StartDate: new Date(2015,12-1,1), TestDays: 7, EndDate: new Date(2016,2-1,29), Effort: 0.7, StateProgress: 0.3, State: states.Working},
-  {Name: "Project I", Description: "", StartDate: new Date(2016,2-1,1), TestDays: 7, EndDate: new Date(2016,2-1,1), Effort: 0.3, StateProgress: 0.3, State: states.Working},
-  {Name: "Project J", Description: "", StartDate: new Date(2016,2-1,1), TestDays: 7, EndDate: new Date(2016,4-1,29), Effort: 0.3, StateProgress: 0.2, State: states.Working},
-  {Name: "Project K", Description: "", StartDate: new Date(2016,1-1,21), TestDays: 14, EndDate: new Date(2016,4-1,1), Effort: 0.7, StateProgress: 0.5, State: states.Working},
-  {Name: "Project L", Description: "", StartDate: new Date(2016,1-14,1), TestDays: 2, EndDate: new Date(2016,3-1,1), Effort: 0.2, StateProgress: 1.0, State: states.Testing},
-  {Name: "Project M", Description: "", StartDate: new Date(2016,1-1,1), TestDays: 1, EndDate: new Date(2016,2-1,1), Effort: 0.4, StateProgress: 1.0, State: states.Released},
+  {Name: "Project A", Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ullamcorper ornare semper. Donec accumsan libero.", StartDate: new Date(2016,6-1,1), TestDays: 28, EndDate: new Date(2016,12-1,1), Effort: 1.0, StateProgress: 1.0, State: states.Prioritised},
+  {Name: "Project B", Description: "Curabitur ullamcorper ornare semper.", StartDate: new Date(2016,1-1,1), TestDays: 1, EndDate: new Date(2016,2-1,1), Effort: 0.4, StateProgress: 1.0, State: states.Released},
+  {Name: "Project C", Description: "Curabitur ullamcorper ornare semper.", StartDate: new Date(2016,6-1,1), TestDays: 21, EndDate: new Date(2016,8-1,1), Effort: 0.8, StateProgress: 0.9, State: states.Working},
+  {Name: "Project D", Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", StartDate: new Date(2015,12-1,1), TestDays: 7, EndDate: new Date(2016,2-1,29), Effort: 0.7, StateProgress: 0.3, State: states.Working},
+  {Name: "Project E", Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", StartDate: new Date(2016,9-1,1), TestDays: 14, EndDate: new Date(2016,11-1,1), Effort: 0.3, StateProgress: 1.0, State: states.Prioritised},
+  {Name: "Project F", Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ullamcorper ornare semper.", StartDate: new Date(2016,1-1,1), TestDays: 14, EndDate: new Date(2016,4-1,15), Effort: 1.0, StateProgress: 0.4, State: states.Working},
+  {Name: "Project G", Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", StartDate: new Date(2016,9-1,1), TestDays: 7, EndDate: new Date(2016,12-1,1), Effort: 0.6, StateProgress: 1.0, State: states.Prioritised},
+  {Name: "Project H", Description: "Donec accumsan libero.", StartDate: new Date(2016,2-1,1), TestDays: 7, EndDate: new Date(2016,2-1,1), Effort: 0.3, StateProgress: 0.3, State: states.Working},
+  {Name: "Project I", Description: "Donec accumsan libero.", StartDate: new Date(2016,12-1,1), TestDays: 21, EndDate: new Date(2017,02-1,1), Effort: 0.4, StateProgress: 1.0, State: states.Prioritised},
+  {Name: "Project J", Description: "Curabitur ullamcorper ornare semper.", StartDate: new Date(2016,2-1,1), TestDays: 7, EndDate: new Date(2016,4-1,29), Effort: 0.3, StateProgress: 0.2, State: states.Working},
+  {Name: "Project K", Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ullamcorper ornare semper.", StartDate: new Date(2016,4-1,1), TestDays: 14, EndDate: new Date(2016,6-1,1), Effort: 0.5, StateProgress: 1.0, State: states.Prioritised},
+  {Name: "Project L", Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.", StartDate: new Date(2016,1-1,21), TestDays: 14, EndDate: new Date(2016,4-1,1), Effort: 0.7, StateProgress: 0.5, State: states.Working},
+  {Name: "Project M", Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ullamcorper ornare semper.", StartDate: new Date(2016,1-14,1), TestDays: 2, EndDate: new Date(2016,3-1,1), Effort: 0.2, StateProgress: 1.0, State: states.Testing},
 ];
 
 projects = projects.sort(function(a, b) {
@@ -275,20 +275,31 @@ function Doughnut(centre, radius, innerRadius, colour){
   return doughnut;
 }
 
+function PaddedRoundRectangle(template, xPaddingLeft, yPaddingLeft, xPaddingRight, yPaddingRight) {
+  var cornerSize = new Size(3, 3);
+  var bounds = template.bounds;
+  var point1 = new Point(bounds.x-xPaddingLeft, bounds.y-yPaddingLeft);
+  var point2 = new Point(bounds.x+bounds.width+xPaddingRight, bounds.y+bounds.height+yPaddingRight);
+  return new Path.RoundRectangle(new Rectangle(point1, point2), cornerSize);
+}
+
 var projectDetails;
 function UpdateProjectDetails(project, states) {
   if (projectDetails) {
     projectDetails.removeChildren();
   }
   
-  var properties = new PointText(new Point(120,25));
+  var padding = 3;
+  var textSize = 15;
+  var xOffset = 106;
+  var properties = new PointText(new Point(xOffset,textSize+(2*padding)));
   properties.justification = "right";
   properties.fillColor = new Color(32/255, 0/255, 0/255, 1.0);
   properties.fontSize = 15;
-  var values = new PointText(new Point(125,25));
+  var values = new PointText(new Point(xOffset+(2*padding),textSize+(2*padding)));
   values.justification = "left";
   values.fillColor = new Color(32/255, 0/255, 0/255, 1.0);
-  values.fontSize = 15;
+  values.fontSize = textSize;
 
   //Write out details
   for (var key in project) {
@@ -322,13 +333,14 @@ function UpdateProjectDetails(project, states) {
     }
   }
 
-  var rectangle = new Rectangle(new Group(properties, values).bounds);
-  var cornerSize = new Size(3, 3);
-  var background = new Path.RoundRectangle(rectangle, cornerSize);
-
-  background.fillColor = new Color(186/255, 178/255, 177/255, 0.9);
-  background.scale(1.05);
-  projectDetails = new Group(background, properties, values);
+  //Background
+  var propertiesBackground = new PaddedRoundRectangle(properties, padding, padding, padding, padding);
+  propertiesBackground.fillColor = new Color(219/255, 215/255, 215/255, 0.5);
+  var valuesBackground = new PaddedRoundRectangle(new Group(propertiesBackground, values), 0, 0, padding, 0);
+  valuesBackground.fillColor = new Color(243/255, 242/255, 242/255, 0.9);
+  var outline = new PaddedRoundRectangle(valuesBackground, padding-1, padding-1, padding-1, padding-1);
+  outline.strokeColor = new Color(219/255, 215/255, 215/255, 1.0);
+  projectDetails = new Group(valuesBackground, propertiesBackground, outline, properties, values);
 }
 
 function GetDateString(date) {
