@@ -146,7 +146,6 @@ function State(centre, radius, innerRadius, angle, colour, angleOffset, lineCoun
   text.fillColor = new Color(32/255, 0/255, 0/255, 1.0);
   text.content = state;
   var background = new Path.Rectangle(text.bounds);
-  text.insertBelow(background);
   background.fillColor = new Color(255/255, 255/255, 255/255, 0.9);
   background.scale(1.1);
   var textGroup = new Group(background, text);
@@ -190,7 +189,7 @@ function Project(centre, totalRadius, project, stateLines, lineSpacing, projectC
     //Project status
     UpdateStatus(project)
     var statusBubble = new Doughnut(bubblePoint, outerRadius+4, outerRadius+2, [new Color(72/255, 186/255, 60/255, 0.8)]);
-    if (project.Status != "") {
+    if (project.Status != "On schedule") {
       statusBubble.fillColor = [new Color(238/255, 28/255, 36/255, 0.8)];
     }
 
@@ -216,23 +215,23 @@ function Project(centre, totalRadius, project, stateLines, lineSpacing, projectC
     }
 
     function UpdateStatus(project) {
-      project.Status = "";
+      project.Status = "On schedule";
       var projectState = project.State;
       var now = new Date().getTime();
       var testingStartDate = project.EndDate.getTime()-(project.TestDays * 86400000);
       var workingTime = testingStartDate - project.StartDate.getTime();
       var elapsedTime = now - project.StartDate.getTime();
       if (projectState < states.Working && project.StartDate < now) {
-        project.Status = "Behind schedule - Not working";
+        project.Status = "Behind schedule - should be working";
       }
       if (project.StateProgress < elapsedTime/workingTime && projectState == states.Working) {
-        project.Status = "Behind schedule - Not progressed enough";
+        project.Status = "Behind schedule - should be further progressed";
       }
       if (testingStartDate < now && projectState < states.Testing) {
-        project.Status = "Behind schedule - Not testing yet";
+        project.Status = "Behind schedule - should be in testing";
       }
       if (project.EndDate < now && projectState < states.Complete) {
-        project.Status = "Behind schedule - Not complete yet";
+        project.Status = "Behind schedule - should be complete";
       }
     }
 }
@@ -282,25 +281,61 @@ function UpdateProjectDetails(project, states) {
     projectDetails.removeChildren();
   }
   
-  var properties = new PointText(new Point(100,15));
+  var properties = new PointText(new Point(120,25));
   properties.justification = "right";
   properties.fillColor = new Color(32/255, 0/255, 0/255, 1.0);
   properties.fontSize = 15;
-  var values = new PointText(new Point(105,15));
+  var values = new PointText(new Point(125,25));
   values.justification = "left";
   values.fillColor = new Color(32/255, 0/255, 0/255, 1.0);
   values.fontSize = 15;
 
   //Write out details
-  for (var property in project) {
-    if (project.hasOwnProperty(property)) {
-      properties.content += property + ":\n";
-      if (property == "State") {
-        values.content += Object.keys(states)[project[property]] + "\n";
-      } else {
-        values.content += project[property] + "\n";
+  for (var key in project) {
+    if (project.hasOwnProperty(key)) {
+      if (properties.content != "") {
+        properties.content += "\n";
+        values.content += "\n";
+      }
+
+      properties.content += key + ":";
+      var value = project[key];
+      switch(key) {
+        case "Effort":
+          values.content += (100*value) + "%";
+          break;
+        case "StateProgress":
+          values.content += (100*value) + "%";
+          break;
+        case "StartDate":
+          values.content += GetDateString(value);
+          break;
+        case "EndDate":
+          values.content += GetDateString(value);
+          break;
+        case "State":
+          values.content += Object.keys(states)[value];
+          break;
+        default:
+          values.content += value;
       }
     }
-  }  
-  projectDetails = new Group(properties, values);
+  }
+
+  var rectangle = new Rectangle(new Group(properties, values).bounds);
+  var cornerSize = new Size(3, 3);
+  var background = new Path.RoundRectangle(rectangle, cornerSize);
+
+  background.fillColor = new Color(186/255, 178/255, 177/255, 0.9);
+  background.scale(1.05);
+  projectDetails = new Group(background, properties, values);
+}
+
+function GetDateString(date) {
+  var day = date.getDate().toString();
+  day = day.length == 1 ? "0" + day : day;
+  var month = (date.getMonth() + 1).toString();
+  month = month.length == 1 ? "0" + month : month;  
+  var year = date.getFullYear();
+  return  year + "-" + month + "-" + day;
 }
