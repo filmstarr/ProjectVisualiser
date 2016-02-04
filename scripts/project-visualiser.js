@@ -95,7 +95,7 @@ for(var i=0; i < projects.length; i++ ) {
 var projectColours = ["#FA37A8","#23B3E8","#D5547F","#00E957","#9260A7"];
 for(var i=0; i < projects.length; i++ ) {
   var project = projects[i];
-  var project = new Project(centre, totalRadius, project, stateLines, lineSpacing, projectCount, new Color(projectColours[i % projectColours.length ]), totalProjectAngle, projectOffsetAngle, projectSeparationAngle, states);
+  Project(centre, totalRadius, project, stateLines, lineSpacing, projectCount, new Color(projectColours[i % projectColours.length ]), totalProjectAngle, projectOffsetAngle, projectSeparationAngle, states);
 }
 
 //Inner doughnuts
@@ -106,7 +106,6 @@ Doughnut(centre, innerSegmentWidth*0.37, innerSegmentWidth*0.11, [new Color(185/
 Doughnut(centre, innerSegmentWidth*0.12, innerSegmentWidth*0.02, [new Color(0/255, 89/255, 132/255, 1.0)]);
 
 //TODO: Show project details in side bar when clicked on (or hovered)
-//TODO: Expand bubbles on hover
 //TODO: Project descriptions
 
 //Objects
@@ -184,21 +183,35 @@ function Project(centre, totalRadius, project, stateLines, lineSpacing, projectC
 
     //Project bubble
     var outerRadius = 1.5*(totalRadius/projectCount)*project.Effort;
-    var bubble = new Doughnut(new Point(centre.x, centre.y - totalRadius + (lineSpacing*projectLines)), outerRadius, 2, projectColour);
+    var bubblePoint = new Point(centre.x, centre.y - totalRadius + (lineSpacing*projectLines));
+    var eventBubble = new Doughnut(bubblePoint, outerRadius, 0, new Color(1.0,1.0,1.0,0.0));
+    var bubble = new Doughnut(bubblePoint, outerRadius, 2, projectColour);
     bubble.fillColor.alpha = 0.8;
 
     //Project status
     UpdateStatus(project)
-    var statusBubble = new Doughnut(new Point(centre.x, centre.y - totalRadius + (lineSpacing*projectLines)), outerRadius+4, outerRadius+2, [new Color(72/255, 186/255, 60/255, 0.8)]);
+    var statusBubble = new Doughnut(bubblePoint, outerRadius+4, outerRadius+2, [new Color(72/255, 186/255, 60/255, 0.8)]);
     if (project.Status != "") {
       statusBubble.fillColor = [new Color(238/255, 28/255, 36/255, 0.8)];
     }
 
     //Rotation
-    var group = new Group(circle, text, bubble, statusBubble);
+    var group = new Group(circle, text, eventBubble, bubble, statusBubble);
     group.rotate(-(totalProjectAngle/2)+projectOffsetAngle+(projectSeparationAngle*i), centre);
   
     //Events
+    var scalingFactor = 1.3;
+
+    group.onMouseEnter = function(event) {
+      bubble.scale(scalingFactor);
+      statusBubble.scale(scalingFactor);
+    }
+
+    group.onMouseLeave = function(event) {
+      bubble.scale(1.0/scalingFactor);
+      statusBubble.scale(1.0/scalingFactor);
+    }
+
     group.onClick = function(event) {
       UpdateProjectDetails(project, states);
     }
@@ -296,3 +309,4 @@ function UpdateProjectDetails(project, states) {
 //Events
 function onFrame(event) {
 }
+
