@@ -1,4 +1,5 @@
 //Data
+var date = new Date();
 var states = Object.freeze({Backlog: 0, Prioritised: 1, Working: 2, Testing: 3, Complete: 4, Released: 5});
 var projects = [
   {Name: "Project A", Description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ullamcorper ornare semper. Donec accumsan libero.", StartDate: new Date(2016,6-1,1), TestDays: 28, EndDate: new Date(2016,12-1,1), Effort: 1.0, StateProgress: 1.0, State: states.Prioritised},
@@ -42,6 +43,14 @@ var stateLines =
   {State: states.Released, Lines: 1},
 ];
 
+
+//Date
+var textSize = 35;
+var dateText = new PointText(new Point(xSize,12+(textSize/2)));
+dateText.justification = "right";
+dateText.fillColor = new Color(32/255, 0/255, 0/255, 1.0);
+dateText.fontSize = textSize;
+dateText.content = "Status as at: " + GetDateString(date);
 
 //Calculate number of lines required and line spacing
 var innerSegmentLines = 5;
@@ -102,7 +111,7 @@ Doughnut(centre, innerSegmentWidth*0.12, innerSegmentWidth*0.02, [new Color(0/25
 var projectColours = ["#FA37A8","#23B3E8","#D5547F","#00E957","#9260A7"];
 for(var i=0; i < projects.length; i++ ) {
   var project = projects[i];
-  Project(centre, totalRadius, project, stateLines, lineSpacing, projectCount, new Color(projectColours[i % projectColours.length ]), totalProjectAngle, projectOffsetAngle, projectSeparationAngle, states);
+  Project(centre, totalRadius, project, stateLines, lineSpacing, projectCount, new Color(projectColours[i % projectColours.length ]), totalProjectAngle, projectOffsetAngle, projectSeparationAngle, states, date);
 }
 
 
@@ -155,7 +164,7 @@ function State(centre, radius, innerRadius, angle, colour, angleOffset, lineCoun
   return group.addChild(textGroup);
 }
 
-function Project(centre, totalRadius, project, stateLines, lineSpacing, projectCount, projectColour, totalProjectAngle, projectOffsetAngle, projectSeparationAngle, states){
+function Project(centre, totalRadius, project, stateLines, lineSpacing, projectCount, projectColour, totalProjectAngle, projectOffsetAngle, projectSeparationAngle, states, date){
     //Project title
     var text = new PointText(new Point(centre.x, centre.y - (totalRadius*1.06)));
     text.justification = "center";
@@ -187,7 +196,7 @@ function Project(centre, totalRadius, project, stateLines, lineSpacing, projectC
     bubble.fillColor.alpha = 0.8;
 
     //Project status
-    UpdateStatus(project)
+    UpdateStatus(project, date)
     var statusBubble = new Doughnut(bubblePoint, outerRadius+4, outerRadius+2, [new Color(72/255, 186/255, 60/255, 0.8)]);
     if (project.Status != "On schedule") {
       statusBubble.fillColor = [new Color(238/255, 28/255, 36/255, 0.8)];
@@ -214,23 +223,22 @@ function Project(centre, totalRadius, project, stateLines, lineSpacing, projectC
       }
     }
 
-    function UpdateStatus(project) {
+    function UpdateStatus(project, date) {
       project.Status = "On schedule";
       var projectState = project.State;
-      var now = new Date().getTime();
       var testingStartDate = project.EndDate.getTime()-(project.TestDays * 86400000);
       var workingTime = testingStartDate - project.StartDate.getTime();
-      var elapsedTime = now - project.StartDate.getTime();
-      if (projectState < states.Working && project.StartDate < now) {
+      var elapsedTime = date - project.StartDate.getTime();
+      if (projectState < states.Working && project.StartDate < date) {
         project.Status = "Behind schedule - should be working";
       }
       if (project.StateProgress < elapsedTime/workingTime && projectState == states.Working) {
         project.Status = "Behind schedule - should be further progressed";
       }
-      if (testingStartDate < now && projectState < states.Testing) {
+      if (testingStartDate < date && projectState < states.Testing) {
         project.Status = "Behind schedule - should be in testing";
       }
-      if (project.EndDate < now && projectState < states.Complete) {
+      if (project.EndDate < date && projectState < states.Complete) {
         project.Status = "Behind schedule - should be complete";
       }
     }
@@ -295,7 +303,7 @@ function UpdateProjectDetails(project, states) {
   var properties = new PointText(new Point(xOffset,textSize+(2*padding)));
   properties.justification = "right";
   properties.fillColor = new Color(32/255, 0/255, 0/255, 1.0);
-  properties.fontSize = 15;
+  properties.fontSize = textSize;
   var values = new PointText(new Point(xOffset+(2*padding),textSize+(2*padding)));
   values.justification = "left";
   values.fillColor = new Color(32/255, 0/255, 0/255, 1.0);
